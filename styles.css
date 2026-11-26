@@ -1,0 +1,353 @@
+:root {
+  --black: #07080a;
+  --anthracite: #101214;
+  --slate: #171b1f;
+  --line: #333a42;
+  --line-hi: #59626c;
+  --text: #eceef0;
+  --muted: #8b939c;
+  /* One rhythm: 24px between blocks, 16px inside them, 8px between controls. */
+  --gap: 24px;
+  /* One corner scale: container, surface, inline tag. */
+  --radius: 12px;
+  --radius-lg: 16px;
+  --radius-sm: 8px;
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+a:focus-visible,
+button:focus-visible,
+.chips li:focus-visible {
+  outline: 2px solid #f4f6f7;
+  outline-offset: 2px;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  padding: var(--gap);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+  color: var(--text);
+  /* Checkerboard dither, faded into solid black further down the page. */
+  background-color: var(--black);
+  background-image:
+    linear-gradient(180deg, rgba(7, 8, 10, 0) 0%, var(--black) 58%),
+    repeating-conic-gradient(#20252b 0% 25%, #07080a 0% 50%);
+  background-size: 100% 100%, 4px 4px;
+  background-repeat: no-repeat, repeat;
+}
+
+.shell {
+  width: 100%;
+  max-width: 700px;
+}
+
+h1 {
+  margin: 0 0 var(--gap);
+  font-size: clamp(26px, 4vw, 34px);
+  font-weight: 650;
+  letter-spacing: -0.02em;
+}
+
+.panel {
+  background-color: var(--anthracite);
+  background-image: repeating-conic-gradient(rgba(255, 255, 255, 0.035) 0% 25%, transparent 0% 50%);
+  background-size: 3px 3px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: var(--gap);
+}
+
+.label {
+  margin: 0 0 16px;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.result {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  background-color: #0a0c0e;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 16px 20px;
+}
+
+.result-text {
+  font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: clamp(18px, 6vw, 32px);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: #f4f6f7;
+  white-space: nowrap;
+  transition: opacity 0.16s ease;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+/* A full address is much longer than a bare name: step the size down so it
+   still sits on one line at desktop widths. */
+.result-text.has-ext {
+  font-size: clamp(14px, 3.4vw, 22px);
+}
+
+.result-text.swap {
+  opacity: 0;
+}
+
+.result-actions {
+  flex: none;
+  display: flex;
+  gap: 8px;
+}
+
+.act {
+  display: inline-flex;
+  text-decoration: none;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 12px;
+  font: inherit;
+  font-size: 13px;
+  color: #d7dbe0;
+  background-color: var(--slate);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.act:hover {
+  background-color: #1f242a;
+  border-color: var(--line-hi);
+}
+
+.act svg {
+  width: 15px;
+  height: 15px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.act.done,
+.like.on {
+  color: #ffffff;
+  background-color: #262c33;
+  border-color: #f4f6f7;
+}
+
+.like {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.like svg {
+  width: 16px;
+  height: 16px;
+}
+
+.like.on svg {
+  fill: currentColor;
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.dot {
+  opacity: 0.5;
+}
+
+.extend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+/* The domain picker wears the button shell; only its arrow is custom. */
+select.act {
+  appearance: none;
+  padding-right: 30px;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23c9ced4' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'><path d='M7 10l5 5 5-5'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 14px;
+}
+
+.primary {
+  width: 100%;
+  margin-top: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 18px;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  color: #07080a;
+  /* Dithered white face: the one bright surface on the page. */
+  background-color: #dfe3e6;
+  background-image: repeating-conic-gradient(#f4f6f7 0% 25%, #b3bac2 0% 50%);
+  background-size: 4px 4px;
+  border: 1px solid #f4f6f7;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: filter 0.15s ease;
+}
+
+.primary:hover {
+  filter: brightness(1.07);
+}
+
+.primary:active {
+  transform: translateY(1px);
+}
+
+.outlook {
+  display: flex;
+  width: fit-content;
+  margin-top: var(--gap);
+}
+
+.outlook .ext {
+  width: 12px;
+  height: 12px;
+  opacity: 0.75;
+}
+
+kbd {
+  font: inherit;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 7px;
+  border-radius: var(--radius-sm);
+  color: #0b0d0f;
+  background: rgba(0, 0, 0, 0.18);
+  border: 1px solid rgba(0, 0, 0, 0.28);
+}
+
+.recent {
+  margin-top: var(--gap);
+}
+
+.recent-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.tools {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.recent-head h2 {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.ghost {
+  padding: 4px 6px;
+  font: inherit;
+  font-size: 13px;
+  color: var(--muted);
+  background: none;
+  border: 0;
+  border-radius: var(--radius);
+  cursor: pointer;
+}
+
+.ghost:hover {
+  color: var(--text);
+  background-color: rgba(255, 255, 255, 0.06);
+}
+
+.ghost.done {
+  color: #ffffff;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.chips li {
+  padding: 7px 11px;
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 13px;
+  color: #c9ced4;
+  background-color: #14181c;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+
+.chips li:hover,
+.chips li.copied {
+  color: #ffffff;
+  border-color: #f4f6f7;
+  background-color: #262c33;
+}
+
+/* Narrow panels: put Copy under the name instead of squeezing the name. */
+@media (max-width: 520px) {
+  .result {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 16px;
+  }
+
+  .result-actions {
+    width: 100%;
+  }
+
+  #copy {
+    flex: 1;
+    justify-content: center;
+  }
+
+  /* A full address wraps at the @ instead of being squeezed. */
+  .result-text {
+    white-space: normal;
+  }
+
+  /* Too narrow for the picker and its button side by side: give each a row. */
+  .extend > * {
+    flex: 1 1 auto;
+    white-space: nowrap;
+  }
+}
